@@ -1,1 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Found Points</title>
 
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f5f7fb;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top {
+      text-align: center;
+      padding: 25px 10px;
+    }
+
+    .top h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .balance {
+      font-size: 42px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .label {
+      color: #777;
+      font-size: 15px;
+    }
+
+    .progress-box {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      margin-top: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: #111827;
+      transition: width 0.4s;
+    }
+
+    .claim {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 15px;
+      background: #111827;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+
+    .claim:disabled {
+      background: #b9bec7;
+      cursor: not-allowed;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      background: white;
+      padding: 18px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    }
+
+    .stat-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .watch {
+      margin-top: auto;
+      padding-top: 30px;
+    }
+
+    .watch button {
+      width: 100%;
+      padding: 18px;
+      border: none;
+      border-radius: 17px;
+      background: #111827;
+      color: white;
+      font-size: 19px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .watch button:active,
+    .claim:active {
+      transform: scale(0.98);
+    }
+
+    .notice {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app">
+
+    <div class="top">
+      <h1>Found Points</h1>
+      <div class="label">Your Coins</div>
+
+      <div class="balance" id="coins">0</div>
+
+      <div class="progress-box">
+        <div class="label">
+          Progress: <span id="progressText">0 / 100</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+
+      <button class="claim" id="claimBtn" disabled>
+        Claim
+      </button>
+    </div>
+
+    <div class="stats">
+
+      <div class="stat">
+        <div class="stat-number" id="ads">0</div>
+        <div class="stat-label">Ads Watched</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-number" id="earned">0</div>
+        <div class="stat-label">Coins Earned</div>
+      </div>
+
+    </div>
+
+    <div class="watch">
+
+      <button onclick="watchAd()">
+        ▶ Watch Ads
+      </button>
+
+      <div class="notice">
+        Watch ads to increase your coins
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    let coins = 0;
+    let ads = 0;
+    let earned = 0;
+
+    const target = 100;
+
+    function updateUI() {
+
+      document.getElementById("coins").innerText = coins;
+      document.getElementById("ads").innerText = ads;
+      document.getElementById("earned").innerText = earned;
+
+      document.getElementById("progressText").innerText =
+        coins + " / " + target;
+
+      let percentage = Math.min((coins / target) * 100, 100);
+
+      document.getElementById("progress").style.width =
+        percentage + "%";
+
+      if (coins >= target) {
+        document.getElementById("claimBtn").disabled = false;
+      }
+
+    }
+
+    function watchAd() {
+
+      /*
+        Temporary test system.
+        Real ad network will be connected later.
+      */
+
+      ads++;
+
+      coins += 1;
+      earned += 1;
+
+      updateUI();
+
+    }
+
+    document.getElementById("claimBtn").onclick = function () {
+
+      if (coins >= target) {
+
+        alert("Claim successful!");
+
+        coins = 0;
+
+        updateUI();
+
+      }
+
+    };
+
+    updateUI();
+
+  </script>
+
+</body>
+  </html>
