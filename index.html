@@ -1,268 +1,766 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Found Points</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Found Points</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#0b0f14;
+  color:#fff;
+  min-height:100vh;
+  padding-bottom:85px
+}
+.app{max-width:480px;margin:auto;padding:18px}
 
-    body {
-      min-height: 100vh;
-      background: #f5f7fb;
-      display: flex;
-      justify-content: center;
-    }
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px
+}
+.logo{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-1px
+}
+.logo span{color:#72a7ff}
 
-    .app {
-      width: 100%;
-      max-width: 430px;
-      min-height: 100vh;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-    }
+.icon-btn{
+  width:42px;height:42px;
+  border-radius:14px;
+  border:1px solid #27303b;
+  background:#151b23;
+  color:#fff;
+  font-size:20px
+}
 
-    .top {
-      text-align: center;
-      padding: 25px 10px;
-    }
+.card{
+  background:linear-gradient(145deg,#171e27,#10151c);
+  border:1px solid #252e39;
+  border-radius:22px;
+  padding:20px;
+  margin-bottom:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,.18)
+}
 
-    .top h1 {
-      font-size: 28px;
-      margin-bottom: 8px;
-    }
+.balance-label{color:#8f9baa;font-size:13px}
+.balance{
+  font-size:36px;
+  font-weight:800;
+  margin:5px 0
+}
+.fc{color:#75a9ff;font-size:14px}
 
-    .balance {
-      font-size: 42px;
-      font-weight: bold;
-      margin: 15px 0;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:18px
+}
+.stat{
+  background:#111820;
+  border-radius:15px;
+  padding:13px
+}
+.stat small{color:#7f8995}
+.stat b{display:block;margin-top:5px;font-size:17px}
 
-    .label {
-      color: #777;
-      font-size: 15px;
-    }
+.section-title{
+  font-size:18px;
+  font-weight:800;
+  margin:20px 2px 12px
+}
 
-    .progress-box {
-      background: white;
-      border-radius: 18px;
-      padding: 18px;
-      margin-top: 10px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
+.task{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:15px;
+  background:#131a22;
+  border:1px solid #252e39;
+  border-radius:17px;
+  margin-bottom:10px
+}
+.task-icon{
+  width:43px;height:43px;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#202a36;
+  font-size:21px
+}
+.task-info{flex:1}
+.task-info b{font-size:14px}
+.task-info small{display:block;color:#7e8995;margin-top:4px}
 
-    .progress-bar {
-      width: 100%;
-      height: 12px;
-      background: #e5e7eb;
-      border-radius: 20px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
+.btn{
+  border:0;
+  background:#6e9fff;
+  color:#08101a;
+  font-weight:800;
+  border-radius:12px;
+  padding:10px 14px
+}
+.btn.dark{
+  background:#202a35;
+  color:#fff
+}
 
-    .progress {
-      width: 0%;
-      height: 100%;
-      background: #111827;
-      transition: width 0.4s;
-    }
+.profile{
+  display:flex;
+  align-items:center;
+  gap:14px
+}
+.avatar{
+  width:70px;height:70px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#202833;
+  border:2px solid #394756
+}
+.profile-name{font-size:20px;font-weight:800}
+.username{color:#8994a1;font-size:13px;margin-top:4px}
 
-    .claim {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 15px;
-      background: #111827;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      margin-top: 20px;
-      cursor: pointer;
-    }
+.verify{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:19px;height:19px;
+  border-radius:50%;
+  background:#3195ff;
+  color:#fff;
+  font-size:12px;
+  margin-left:5px;
+  vertical-align:middle
+}
 
-    .claim:disabled {
-      background: #b9bec7;
-      cursor: not-allowed;
-    }
+.badges{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:12px
+}
+.badge{
+  padding:7px 10px;
+  border-radius:10px;
+  background:#202a35;
+  font-size:12px;
+  font-weight:700
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 20px;
-    }
+.ticket{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  background:#131a22;
+  border-radius:16px;
+  margin-bottom:9px
+}
+.ticket small{color:#8994a1}
 
-    .stat {
-      background: white;
-      padding: 18px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.06);
-    }
+.shop-item{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  padding:15px;
+  border:1px solid #252e39;
+  background:#131a22;
+  border-radius:17px;
+  margin-bottom:10px
+}
+.shop-icon{
+  width:48px;height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:14px;
+  background:#202a35;
+  font-size:24px
+}
+.shop-info{flex:1}
+.shop-info b{display:block}
+.shop-info small{color:#8c97a3}
 
-    .stat-number {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:72px;
+  background:#10151c;
+  border-top:1px solid #252e39;
+  display:flex;
+  justify-content:center;
+  z-index:10
+}
+.nav-inner{
+  width:100%;
+  max-width:480px;
+  display:flex;
+  justify-content:space-around;
+  align-items:center
+}
+.nav button{
+  background:none;
+  border:0;
+  color:#727d89;
+  font-size:11px
+}
+.nav button div{font-size:21px;margin-bottom:3px}
+.nav button.active{color:#76a9ff}
 
-    .stat-label {
-      color: #777;
-      font-size: 13px;
-    }
+.page{display:none}
+.page.active{display:block}
 
-    .watch {
-      margin-top: auto;
-      padding-top: 30px;
-    }
+.boost{
+  border:1px solid #38547a;
+  background:linear-gradient(145deg,#18283b,#111a25)
+}
+.boost h3{margin-bottom:7px}
+.boost p{color:#9aa6b3;font-size:13px;line-height:1.5}
 
-    .watch button {
-      width: 100%;
-      padding: 18px;
-      border: none;
-      border-radius: 17px;
-      background: #111827;
-      color: white;
-      font-size: 19px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.admin{
+  border:1px solid #4b3d62;
+  background:linear-gradient(145deg,#21182d,#14101c)
+}
 
-    .watch button:active,
-    .claim:active {
-      transform: scale(0.98);
-    }
+input,select{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid #303b48;
+  background:#0f151c;
+  color:#fff;
+  margin:7px 0 10px;
+  outline:none
+}
 
-    .notice {
-      text-align: center;
-      color: #777;
-      font-size: 13px;
-      margin-top: 10px;
-    }
-  </style>
+.empty{
+  text-align:center;
+  color:#77818d;
+  padding:20px
+}
+</style>
 </head>
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <div class="top">
-      <h1>Found Points</h1>
-      <div class="label">Your Coins</div>
+<!-- HOME -->
+<section id="home" class="page active">
 
-      <div class="balance" id="coins">0</div>
+  <div class="header">
+    <div class="logo">Found <span>Points</span></div>
+    <button class="icon-btn" onclick="showPage('profile')">👤</button>
+  </div>
 
-      <div class="progress-box">
-        <div class="label">
-          Progress: <span id="progressText">0 / 100</span>
-        </div>
-
-        <div class="progress-bar">
-          <div class="progress" id="progress"></div>
-        </div>
-      </div>
-
-      <button class="claim" id="claimBtn" disabled>
-        Claim
-      </button>
-    </div>
+  <div class="card">
+    <div class="balance-label">Your Balance</div>
+    <div class="balance" id="balance">0</div>
+    <div class="fc">FC Points</div>
 
     <div class="stats">
-
       <div class="stat">
-        <div class="stat-number" id="ads">0</div>
-        <div class="stat-label">Ads Watched</div>
+        <small>Today's Earned</small>
+        <b id="today">0 FC</b>
       </div>
-
       <div class="stat">
-        <div class="stat-number" id="earned">0</div>
-        <div class="stat-label">Coins Earned</div>
+        <small>Ads Watched</small>
+        <b id="ads">0 / 20</b>
       </div>
+    </div>
+  </div>
 
+  <div class="card boost">
+    <h3>⚡ Earning Boost</h3>
+    <p>Watch 4 rewarded ads to activate <b>20 FC/min</b> earning for 5 minutes.</p>
+    <br>
+    <button class="btn" onclick="testBoost()">Test Boost</button>
+  </div>
+
+  <div class="section-title">Quick Actions</div>
+
+  <div class="task" onclick="showPage('tasks')">
+    <div class="task-icon">⚡</div>
+    <div class="task-info">
+      <b>Earn Points</b>
+      <small>Complete available tasks</small>
+    </div>
+    <button class="btn dark">Open</button>
+  </div>
+
+  <div class="task" onclick="showPage('referral')">
+    <div class="task-icon">👥</div>
+    <div class="task-info">
+      <b>Invite Friends</b>
+      <small>Earn through referrals</small>
+    </div>
+    <button class="btn dark">Open</button>
+  </div>
+
+</section>
+
+
+<!-- TASKS -->
+<section id="tasks" class="page">
+
+  <div class="header">
+    <div class="logo">Tasks</div>
+  </div>
+
+  <div class="card">
+    <div class="balance-label">Base Earning</div>
+    <div class="balance">5 FC</div>
+    <div class="fc">Every 30 seconds</div>
+    <br>
+    <button class="btn" onclick="startEarning()">Start Earning</button>
+  </div>
+
+  <div class="section-title">Available Tasks</div>
+
+  <div class="task">
+    <div class="task-icon">📅</div>
+    <div class="task-info">
+      <b>Daily Task</b>
+      <small>Daily reward: 30 FC</small>
+    </div>
+    <button class="btn" onclick="dailyTask()">Claim</button>
+  </div>
+
+  <div class="task">
+    <div class="task-icon">▶️</div>
+    <div class="task-info">
+      <b>Rewarded Ads</b>
+      <small>Optional earning booster</small>
+    </div>
+    <button class="btn" onclick="watchAd()">Watch</button>
+  </div>
+
+</section>
+
+
+<!-- REFERRAL -->
+<section id="referral" class="page">
+
+  <div class="header">
+    <div class="logo">Referral</div>
+  </div>
+
+  <div class="card">
+    <div class="balance-label">Your Referral Link</div>
+    <br>
+    <input id="refLink" value="https://t.me/FoundCoinsBot?start=ref_demo" readonly>
+    <button class="btn" onclick="copyReferral()">Copy Link</button>
+  </div>
+
+  <div class="card">
+    <div class="stats">
+      <div class="stat">
+        <small>Invited</small>
+        <b>0</b>
+      </div>
+      <div class="stat">
+        <small>Referral Earned</small>
+        <b>0 FC</b>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- SHOP -->
+<section id="shop" class="page">
+
+  <div class="header">
+    <div class="logo">FC Shop</div>
+  </div>
+
+  <div class="section-title">Premium Badges</div>
+
+  <div class="shop-item">
+    <div class="shop-icon">🔵</div>
+    <div class="shop-info">
+      <b>Blueberry Badge</b>
+      <small>5,000 FC Points</small>
+    </div>
+    <button class="btn" onclick="buyBadge('Blueberry',5000)">Buy</button>
+  </div>
+
+  <div class="shop-item">
+    <div class="shop-icon">🟢</div>
+    <div class="shop-info">
+      <b>Green Berry Badge</b>
+      <small>8,000 FC Points</small>
+    </div>
+    <button class="btn" onclick="buyBadge('Green Berry',8000)">Buy</button>
+  </div>
+
+  <div class="shop-item">
+    <div class="shop-icon">⚫</div>
+    <div class="shop-info">
+      <b>Blackberry VIP</b>
+      <small>15,000 FC Points</small>
+    </div>
+    <button class="btn" onclick="buyBadge('Blackberry VIP',15000)">Buy</button>
+  </div>
+
+  <div class="shop-item">
+    <div class="shop-icon">🟦</div>
+    <div class="shop-info">
+      <b>Blue Verification</b>
+      <small>Verified profile badge</small>
+    </div>
+    <button class="btn" onclick="buyVerification()">Buy</button>
+  </div>
+
+</section>
+
+
+<!-- WITHDRAW -->
+<section id="withdraw" class="page">
+
+  <div class="header">
+    <div class="logo">Withdrawal</div>
+  </div>
+
+  <div class="card">
+    <div class="balance-label">Minimum Withdrawal</div>
+    <div class="balance">20,000</div>
+    <div class="fc">FC Points = ৳150</div>
+  </div>
+
+  <div class="section-title">Choose Method</div>
+
+  <select id="method">
+    <option>bKash</option>
+    <option>Nagad</option>
+    <option>Binance</option>
+  </select>
+
+  <input id="payment" placeholder="Payment number / Binance ID">
+
+  <button class="btn" style="width:100%" onclick="withdraw()">Submit Withdrawal</button>
+
+  <div class="card" style="margin-top:15px">
+    <div class="balance-label">Withdrawal Status</div>
+    <div style="margin-top:8px">No pending withdrawal</div>
+  </div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+
+  <div class="header">
+    <div class="logo">Profile</div>
+  </div>
+
+  <div class="card">
+
+    <div class="profile">
+      <img id="avatar" class="avatar"
+           src="https://placehold.co/150x150/202833/ffffff?text=FP"
+           alt="Profile">
+
+      <div>
+        <div class="profile-name">
+          Found User
+          <span id="verification" style="display:none" class="verify">✓</span>
+        </div>
+        <div class="username">@found_user</div>
+      </div>
     </div>
 
-    <div class="watch">
-
-      <button onclick="watchAd()">
-        ▶ Watch Ads
-      </button>
-
-      <div class="notice">
-        Watch ads to increase your coins
-      </div>
-
+    <div class="badges" id="badges">
+      <div class="badge">🎫 Tickets: 0</div>
     </div>
 
   </div>
 
-  <script>
+  <div class="section-title">Profile Information</div>
 
-    let coins = 0;
-    let ads = 0;
-    let earned = 0;
+  <div class="card">
+    <div class="task">
+      <div class="task-icon">🪙</div>
+      <div class="task-info">
+        <b>FC Points</b>
+        <small id="profileBalance">0 FC Points</small>
+      </div>
+    </div>
 
-    const target = 100;
+    <div class="task">
+      <div class="task-icon">🎫</div>
+      <div class="task-info">
+        <b>Tickets</b>
+        <small>0 Tickets</small>
+      </div>
+    </div>
 
-    function updateUI() {
+    <div class="task">
+      <div class="task-icon">🛡️</div>
+      <div class="task-info">
+        <b>Account Status</b>
+        <small>Active</small>
+      </div>
+    </div>
+  </div>
 
-      document.getElementById("coins").innerText = coins;
-      document.getElementById("ads").innerText = ads;
-      document.getElementById("earned").innerText = earned;
+  <div class="section-title">My Badges</div>
 
-      document.getElementById("progressText").innerText =
-        coins + " / " + target;
+  <div class="card">
+    <div class="empty" id="noBadges">
+      No premium badges yet.
+    </div>
+  </div>
 
-      let percentage = Math.min((coins / target) * 100, 100);
+</section>
 
-      document.getElementById("progress").style.width =
-        percentage + "%";
 
-      if (coins >= target) {
-        document.getElementById("claimBtn").disabled = false;
-      }
+<!-- ADMIN -->
+<section id="admin" class="page">
 
-    }
+  <div class="header">
+    <div class="logo">Admin Panel</div>
+  </div>
 
-    function watchAd() {
+  <div class="card admin">
+    <h3>⚙️ System Overview</h3>
 
-      /*
-        Temporary test system.
-        Real ad network will be connected later.
-      */
+    <div class="stats">
+      <div class="stat">
+        <small>Total Users</small>
+        <b>0</b>
+      </div>
+      <div class="stat">
+        <small>Active Users</small>
+        <b>0</b>
+      </div>
+    </div>
+  </div>
 
-      ads++;
+  <div class="section-title">User Management</div>
 
-      coins += 1;
-      earned += 1;
+  <div class="task">
+    <div class="task-icon">👥</div>
+    <div class="task-info">
+      <b>All Users</b>
+      <small>View and manage users</small>
+    </div>
+    <button class="btn dark">Open</button>
+  </div>
 
-      updateUI();
+  <div class="task">
+    <div class="task-icon">⭐</div>
+    <div class="task-info">
+      <b>VIP Users</b>
+      <small>View badge/VIP users</small>
+    </div>
+    <button class="btn dark">Open</button>
+  </div>
 
-    }
+  <div class="task">
+    <div class="task-icon">💰</div>
+    <div class="task-info">
+      <b>Reward Settings</b>
+      <small>Edit earning limits and rewards</small>
+    </div>
+    <button class="btn dark">Edit</button>
+  </div>
 
-    document.getElementById("claimBtn").onclick = function () {
+</section>
 
-      if (coins >= target) {
+</div>
 
-        alert("Claim successful!");
 
-        coins = 0;
+<!-- NAVIGATION -->
+<div class="nav">
+  <div class="nav-inner">
 
-        updateUI();
+    <button class="active" onclick="showPage('home',this)">
+      <div>⌂</div>Home
+    </button>
 
-      }
+    <button onclick="showPage('tasks',this)">
+      <div>✓</div>Tasks
+    </button>
 
-    };
+    <button onclick="showPage('referral',this)">
+      <div>👥</div>Referral
+    </button>
+
+    <button onclick="showPage('shop',this)">
+      <div>🛍</div>Shop
+    </button>
+
+    <button onclick="showPage('profile',this)">
+      <div>👤</div>Profile
+    </button>
+
+  </div>
+</div>
+
+
+<script>
+
+let balance = 0;
+let today = 0;
+let ads = 0;
+
+function updateUI(){
+  document.getElementById("balance").innerText =
+    balance.toLocaleString();
+
+  document.getElementById("today").innerText =
+    today.toLocaleString()+" FC";
+
+  document.getElementById("ads").innerText =
+    ads+" / 20";
+
+  document.getElementById("profileBalance").innerText =
+    balance.toLocaleString()+" FC Points";
+}
+
+function showPage(id,btn){
+
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
+
+  document.getElementById(id)
+    .classList.add("active");
+
+  document.querySelectorAll(".nav button")
+    .forEach(b=>b.classList.remove("active"));
+
+  if(btn) btn.classList.add("active");
+
+  window.scrollTo(0,0);
+}
+
+function startEarning(){
+
+  alert("Testing mode: earning started.");
+
+  let count = 0;
+
+  let timer = setInterval(()=>{
+
+    balance += 5;
+    today += 5;
+    count++;
 
     updateUI();
 
-  </script>
+    if(count >= 10){
+      clearInterval(timer);
+      alert("Testing earning session finished.");
+    }
+
+  },30000);
+}
+
+function watchAd(){
+
+  if(ads >= 20){
+    alert("Daily ad limit reached.");
+    return;
+  }
+
+  ads++;
+  balance += 1;
+  today += 1;
+
+  updateUI();
+
+  alert("Testing ad completed.");
+}
+
+function testBoost(){
+
+  alert("Testing mode: 4 ads required for the real Boost. AdsGram will be connected later.");
+}
+
+function dailyTask(){
+
+  balance += 30;
+  today += 30;
+
+  updateUI();
+
+  alert("Daily task reward added.");
+}
+
+function buyBadge(name,price){
+
+  if(balance < price){
+    alert("Not enough FC Points.");
+    return;
+  }
+
+  if(confirm("Buy "+name+" for "+price+" FC Points?")){
+
+    balance -= price;
+    updateUI();
+
+    let box = document.getElementById("badges");
+
+    let badge = document.createElement("div");
+    badge.className="badge";
+    badge.innerText="🏅 "+name;
+
+    box.appendChild(badge);
+
+    document.getElementById("noBadges").style.display="none";
+
+    alert(name+" purchased successfully.");
+  }
+}
+
+function buyVerification(){
+
+  alert("Blue Verification purchase system will be connected with the real Shop/Admin system later.");
+}
+
+function copyReferral(){
+
+  let input=document.getElementById("refLink");
+
+  navigator.clipboard.writeText(input.value);
+
+  alert("Referral link copied.");
+}
+
+function withdraw(){
+
+  if(balance < 20000){
+    alert("You need at least 20,000 FC Points.");
+    return;
+  }
+
+  let method=document.getElementById("method").value;
+  let payment=document.getElementById("payment").value.trim();
+
+  if(!payment){
+    alert("Please enter your payment information.");
+    return;
+  }
+
+  alert(
+    "Withdrawal submitted.\n\n"+
+    "Method: "+method+
+    "\nStatus: Under Review"
+  );
+}
+
+updateUI();
+
+</script>
 
 </body>
-  </html>
+</html>
