@@ -2,334 +2,128 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Found Points</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
 body{
 font-family:Arial,sans-serif;
-background:#0b0f14;
+background:#080c12;
 color:#fff;
 min-height:100vh;
-padding-bottom:85px
+padding-bottom:82px
 }
-
-.app{
-max-width:480px;
-margin:auto;
-padding:18px
-}
-
+.app{max-width:480px;margin:auto;padding:16px}
+.page{display:none}.page.active{display:block}
 .header{
-display:flex;
-justify-content:space-between;
-align-items:center;
+display:flex;justify-content:space-between;align-items:center;
 margin-bottom:18px
 }
-
-.logo{
-font-size:25px;
-font-weight:800
-}
-
+.logo{font-size:25px;font-weight:800}
 .logo span{color:#72a7ff}
-
 .icon-btn{
-width:42px;
-height:42px;
-border-radius:14px;
-border:1px solid #27303b;
-background:#151b23;
-color:#fff;
-font-size:20px
+width:42px;height:42px;border-radius:14px;
+border:1px solid #27303b;background:#151b23;color:#fff;font-size:19px
 }
-
 .card{
 background:linear-gradient(145deg,#171e27,#10151c);
-border:1px solid #252e39;
-border-radius:22px;
-padding:20px;
-margin-bottom:15px;
-box-shadow:0 10px 30px rgba(0,0,0,.18)
+border:1px solid #252e39;border-radius:21px;
+padding:18px;margin-bottom:14px
 }
-
-.balance-label{
-color:#8f9baa;
-font-size:13px
-}
-
-.balance{
-font-size:36px;
-font-weight:800;
-margin:5px 0
-}
-
-.fc{
-color:#75a9ff;
-font-size:14px
-}
-
-.stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-top:18px
-}
-
-.stat{
-background:#111820;
-border-radius:15px;
-padding:13px
-}
-
+.balance-label{color:#8f9baa;font-size:13px}
+.balance{font-size:35px;font-weight:800;margin:5px 0}
+.fc{color:#75a9ff;font-size:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
+.stat{background:#111820;border-radius:14px;padding:12px}
 .stat small{color:#7f8995}
-
-.stat b{
-display:block;
-margin-top:5px;
-font-size:17px
+.stat b{display:block;margin-top:5px;font-size:16px}
+.section-title{font-size:18px;font-weight:800;margin:20px 2px 11px}
+.task,.shop-item{
+display:flex;align-items:center;gap:12px;
+padding:14px;background:#131a22;
+border:1px solid #252e39;border-radius:16px;margin-bottom:9px
 }
-
-.section-title{
-font-size:18px;
-font-weight:800;
-margin:20px 2px 12px
+.task-icon,.shop-icon{
+width:45px;height:45px;border-radius:13px;
+display:flex;align-items:center;justify-content:center;
+background:#202a36;font-size:21px;flex-shrink:0
 }
-
-.task{
-display:flex;
-align-items:center;
-gap:12px;
-padding:15px;
-background:#131a22;
-border:1px solid #252e39;
-border-radius:17px;
-margin-bottom:10px
+.shop-icon{width:48px;height:48px;font-size:23px}
+.task-info,.shop-info{flex:1;min-width:0}
+.task-info b,.shop-info b{font-size:14px}
+.task-info small,.shop-info small{
+display:block;color:#7e8995;margin-top:4px;line-height:1.35
 }
-
-.task-icon{
-width:43px;
-height:43px;
-border-radius:13px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#202a36;
-font-size:21px
-}
-
-.task-info{flex:1}
-
-.task-info b{font-size:14px}
-
-.task-info small{
-display:block;
-color:#7e8995;
-margin-top:4px
-}
-
 .btn{
-border:0;
-background:#6e9fff;
-color:#08101a;
-font-weight:800;
-border-radius:12px;
-padding:10px 14px
+border:0;background:#6e9fff;color:#08101a;
+font-weight:800;border-radius:11px;padding:10px 13px
 }
-
-.btn.dark{
-background:#202a35;
-color:#fff
-}
-
-.btn.stop{
-background:#45252b;
-color:#ff9ba5
-}
-
-.profile{
-display:flex;
-align-items:center;
-gap:14px
-}
-
-.avatar{
-width:70px;
-height:70px;
-border-radius:50%;
-object-fit:cover;
-background:#202833;
-border:2px solid #394756
-}
-
-.profile-name{
-font-size:20px;
-font-weight:800
-}
-
-.username{
-color:#8994a1;
-font-size:13px;
-margin-top:4px
-}
-
-.verify{
-display:inline-flex;
-align-items:center;
-justify-content:center;
-width:19px;
-height:19px;
-border-radius:50%;
-background:#3195ff;
-color:#fff;
-font-size:12px;
-margin-left:5px;
-vertical-align:middle
-}
-
-.badges{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin-top:12px
-}
-
-.badge{
-padding:7px 10px;
-border-radius:10px;
-background:#202a35;
-font-size:12px;
-font-weight:700
-}
-
-.ticket{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-background:#131a22;
-border-radius:16px;
-margin-bottom:9px
-}
-
-.ticket small{color:#8994a1}
-
-.shop-item{
-display:flex;
-align-items:center;
-gap:13px;
-padding:15px;
-border:1px solid #252e39;
-background:#131a22;
-border-radius:17px;
-margin-bottom:10px
-}
-
-.shop-icon{
-width:48px;
-height:48px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:14px;
-background:#202a35;
-font-size:24px
-}
-
-.shop-info{flex:1}
-
-.shop-info b{display:block}
-
-.shop-info small{color:#8c97a3}
-
-.nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:72px;
-background:#10151c;
-border-top:1px solid #252e39;
-display:flex;
-justify-content:center;
-z-index:10
-}
-
-.nav-inner{
-width:100%;
-max-width:480px;
-display:flex;
-justify-content:space-around;
-align-items:center
-}
-
-.nav button{
-background:none;
-border:0;
-color:#727d89;
-font-size:11px
-}
-
-.nav button div{
-font-size:21px;
-margin-bottom:3px
-}
-
-.nav button.active{color:#76a9ff}
-
-.page{display:none}
-
-.page.active{display:block}
-
+.btn.dark{background:#202a35;color:#fff}
+.btn.stop{background:#45252b;color:#ff9ba5}
+.btn:disabled{opacity:.45}
 .boost{
 border:1px solid #38547a;
 background:linear-gradient(145deg,#18283b,#111a25)
 }
-
-.boost h3{margin-bottom:7px}
-
-.boost p{
-color:#9aa6b3;
-font-size:13px;
-line-height:1.5
-}
-
-.timer{
-font-size:13px;
-color:#8fa8c7;
-margin-top:10px
-}
-
+.boost p{color:#9aa6b3;font-size:13px;line-height:1.5}
+.timer{font-size:13px;color:#8fa8c7;margin-top:10px}
 input,select{
-width:100%;
-padding:13px;
-border-radius:12px;
-border:1px solid #303b48;
-background:#0f151c;
-color:#fff;
-margin:7px 0 10px;
-outline:none
+width:100%;padding:13px;border-radius:12px;
+border:1px solid #303b48;background:#0f151c;color:#fff;
+margin:6px 0 10px;outline:none
 }
-
-.file-label{
-display:block;
-text-align:center;
-padding:12px;
-border-radius:12px;
-background:#202a35;
-margin-top:12px;
-font-weight:700;
-cursor:pointer
+.info{color:#8994a1;font-size:13px;line-height:1.5}
+.profile{display:flex;align-items:center;gap:14px}
+.avatar{
+width:64px;height:64px;border-radius:50%;
+background:#202833;border:2px solid #394756;
+display:flex;align-items:center;justify-content:center;
+font-size:25px;font-weight:800;color:#75a9ff
 }
-
-input[type="file"]{display:none}
-
-.empty{
-text-align:center;
-color:#77818d;
-padding:20px
+.profile-name{font-size:20px;font-weight:800}
+.username{color:#8994a1;font-size:13px;margin-top:4px}
+.verify{
+display:inline-flex;align-items:center;justify-content:center;
+width:19px;height:19px;border-radius:50%;
+background:#3195ff;color:#fff;font-size:12px;margin-left:5px
+}
+.badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.badge{
+padding:7px 10px;border-radius:10px;background:#202a35;
+font-size:12px;font-weight:700
+}
+.status{
+padding:7px 10px;border-radius:9px;background:#202a35;
+font-size:12px;display:inline-block
+}
+.status.pending{color:#ffd36e}
+.status.paid{color:#7cffad}
+.status.rejected{color:#ff8d99}
+.nav{
+position:fixed;bottom:0;left:0;right:0;height:70px;
+background:#10151c;border-top:1px solid #252e39;
+display:flex;justify-content:center;z-index:20
+}
+.nav-inner{
+width:100%;max-width:480px;display:flex;
+justify-content:space-around;align-items:center
+}
+.nav button{
+background:none;border:0;color:#727d89;font-size:10px
+}
+.nav button div{font-size:20px;margin-bottom:3px}
+.nav button.active{color:#76a9ff}
+.row{
+display:flex;justify-content:space-between;
+align-items:center;gap:10px
+}
+.divider{height:1px;background:#252e39;margin:14px 0}
+.empty{text-align:center;color:#77818d;padding:18px}
+.notice{
+padding:12px;border-radius:12px;
+background:#111820;border:1px solid #252e39;
+color:#9ba6b2;font-size:13px;line-height:1.45
 }
 </style>
 </head>
@@ -347,38 +141,27 @@ padding:20px
 </div>
 
 <div class="card">
-
 <div class="balance-label">Your Balance</div>
-
 <div class="balance" id="balance">0</div>
-
 <div class="fc">FC Points</div>
 
 <div class="stats">
-
 <div class="stat">
 <small>Today's Earned</small>
 <b id="today">0 FC</b>
 </div>
-
 <div class="stat">
 <small>Ads Watched</small>
 <b id="ads">0 / 20</b>
 </div>
-
 </div>
 </div>
-
 
 <div class="card boost">
-
-<h3>⚡ Earning</h3>
-
+<h3>⏱️ Normal Earning</h3>
 <p>
-Automatic earning:
-<b>1 FC every 6 seconds</b>
-<br>
-That's <b>10 FC per minute</b>.
+Earn <b>1 FC every 6 seconds</b> while earning is running.
+Daily maximum: <b>200 FC</b>.
 </p>
 
 <br>
@@ -387,67 +170,56 @@ That's <b>10 FC per minute</b>.
 Start Earning
 </button>
 
-<button id="stopBtn"
-class="btn stop"
-style="display:none"
-onclick="stopEarning()">
+<button id="stopBtn" class="btn stop"
+style="display:none" onclick="stopEarning()">
 Stop
 </button>
 
 <div class="timer" id="earningStatus">
 Earning is stopped
 </div>
-
 </div>
-
 
 <div class="card boost">
-
-<h3>⚡ 4 Ads Boost</h3>
-
+<h3>🚀 Boost</h3>
 <p>
-Watch 4 rewarded ads to activate
-<b>20 FC/min</b> earning for
-<b>5 minutes</b>.
+Watch <b>4 rewarded ads</b> to activate
+<b>20 FC/min</b> for <b>5 minutes</b>.
+Maximum Boost reward: <b>100 FC/day</b>.
 </p>
-
 <br>
-
-<button class="btn"
-onclick="testBoost()">
-Test Boost
+<button class="btn" onclick="showPage('tasks')">
+Open Boost
 </button>
-
 </div>
-
 
 <div class="section-title">Quick Actions</div>
 
 <div class="task" onclick="showPage('tasks')">
-
-<div class="task-icon">⚡</div>
-
+<div class="task-icon">🎯</div>
 <div class="task-info">
 <b>Daily Tasks</b>
-<small>Complete tasks and earn FC</small>
+<small>Complete today's missions and rewards</small>
 </div>
-
 <button class="btn dark">Open</button>
-
 </div>
-
 
 <div class="task" onclick="showPage('referral')">
-
 <div class="task-icon">👥</div>
-
 <div class="task-info">
-<b>Invite & Refer</b>
-<small>Invite friends and earn</small>
+<b>Invite Friends</b>
+<small>Earn 100 FC for each successful invite</small>
+</div>
+<button class="btn dark">Open</button>
 </div>
 
+<div class="task" onclick="showPage('withdraw')">
+<div class="task-icon">💸</div>
+<div class="task-info">
+<b>Withdrawal</b>
+<small>Minimum withdrawal: 20,000 FC</small>
+</div>
 <button class="btn dark">Open</button>
-
 </div>
 
 </section>
@@ -460,121 +232,90 @@ Test Boost
 <div class="logo">Daily Tasks</div>
 </div>
 
-
 <div class="card">
-
-<div class="balance-label">Automatic Earning</div>
-
-<div class="balance">10 FC</div>
-
-<div class="fc">Per minute</div>
-
-<br>
-
-<p style="color:#8994a1;font-size:13px">
-1 FC is added automatically every 6 seconds
-while earning is running.
-</p>
-
+<div class="row">
+<div>
+<div class="balance-label">Daily Maximum</div>
+<div class="balance" style="font-size:28px">650</div>
+<div class="fc">FC Points / day</div>
+</div>
+<div style="text-align:right">
+<div class="balance-label">Ads</div>
+<div class="balance" style="font-size:24px" id="taskAds">0/20</div>
+</div>
+</div>
 </div>
 
-
-<div class="section-title">Today's Tasks</div>
-
+<div class="section-title">Today's Missions</div>
 
 <div class="task">
-
 <div class="task-icon">📅</div>
-
 <div class="task-info">
 <b>Daily Check-in</b>
-<small>Daily reward: 10 FC</small>
+<small>Claim 10 FC once every day</small>
 </div>
-
-<button class="btn" onclick="dailyCheckin()">
-Claim
-</button>
-
+<button id="checkinBtn" class="btn" onclick="dailyCheckin()">Claim</button>
 </div>
-
 
 <div class="task">
-
-<div class="task-icon">👥</div>
-
+<div class="task-icon">🎯</div>
 <div class="task-info">
-<b>Invite & Refer</b>
-<small>Invite friends and earn rewards</small>
+<b>Daily Mission</b>
+<small>Daily mission reward: 10 FC</small>
 </div>
-
-<button class="btn" onclick="showPage('referral')">
-Open
-</button>
-
+<button id="missionBtn" class="btn" onclick="claimMission()">Claim</button>
 </div>
-
 
 <div class="task">
-
-<div class="task-icon">👤</div>
-
+<div class="task-icon">💰</div>
 <div class="task-info">
-<b>Complete Profile</b>
-<small>Complete your profile: 50 FC</small>
+<b>Daily Earning Goal</b>
+<small>Earn 5 FC through earning activity</small>
 </div>
-
-<button class="btn" onclick="completeProfile()">
-Claim
-</button>
-
+<button id="goalBtn" class="btn" onclick="claimGoal()">Claim</button>
 </div>
-
 
 <div class="task">
-
-<div class="task-icon">🎫</div>
-
+<div class="task-icon">🔄</div>
 <div class="task-info">
-<b>Daily Ticket Task</b>
-<small>Watch ads to earn a ticket</small>
+<b>Daily Activity</b>
+<small>Complete 4 separate activities: 5 FC</small>
+</div>
+<button id="activityBtn" class="btn" onclick="activity()">Claim</button>
 </div>
 
-<button class="btn" onclick="ticketAd()">
-Ads
-</button>
-
-</div>
-
+<div class="section-title">Rewarded Ads</div>
 
 <div class="task">
-
-<div class="task-icon">📺</div>
-
+<div class="task-icon">🎟️</div>
 <div class="task-info">
-<b>Personal Reward Ads</b>
-<small>Optional rewarded ads</small>
+<b>Ticket</b>
+<small>1 ad = 1 Ticket • 4 Tickets = 200 FC</small>
 </div>
-
-<button class="btn" onclick="rewardAd()">
-Ads
-</button>
-
+<button id="ticketBtn" class="btn" onclick="ticketAd()">Ads</button>
 </div>
-
 
 <div class="task">
-
-<div class="task-icon">⚡</div>
-
+<div class="task-icon">🚀</div>
 <div class="task-info">
-<b>4 Ads Boost</b>
-<small>20 FC/min for 5 minutes</small>
+<b>Boost</b>
+<small>4 ads → 20 FC/min for 5 minutes</small>
+</div>
+<button id="boostBtn" class="btn" onclick="boostAd()">Ads</button>
 </div>
 
-<button class="btn" onclick="testBoost()">
-Boost
-</button>
+<div class="task">
+<div class="task-icon">🎁</div>
+<div class="task-info">
+<b>Personal Reward</b>
+<small>12 ads × 10 FC = 120 FC</small>
+</div>
+<button id="personalBtn" class="btn" onclick="personalAd()">Ads</button>
+</div>
 
+<div class="notice">
+Maximum rewarded ads per day: <b>20</b>.
+Completed rewards disappear until the next daily reset.
 </div>
 
 </section>
@@ -588,43 +329,30 @@ Boost
 </div>
 
 <div class="card">
-
-<div class="balance-label">
-Your Referral Link
-</div>
-
+<div class="balance-label">Your Referral Link</div>
 <br>
-
-<input
-id="refLink"
-value="https://t.me/FoundCoinsBot?start=ref_demo"
-readonly
->
-
-<button class="btn"
-onclick="copyReferral()">
-Copy Link
+<input id="refLink" value="Generating..." readonly>
+<button class="btn" style="width:100%" onclick="copyReferral()">
+Copy Referral Link
 </button>
-
 </div>
-
 
 <div class="card">
-
 <div class="stats">
-
 <div class="stat">
-<small>Invited</small>
+<small>Successful Invites</small>
 <b id="invited">0</b>
 </div>
-
 <div class="stat">
-<small>Referral Earned</small>
-<b>0 FC</b>
+<small>Referral Reward</small>
+<b>100 FC</b>
+</div>
+</div>
 </div>
 
-</div>
-
+<div class="notice">
+Invite a friend through your personal referral link.
+You receive <b>100 FC Points</b> after a successful referral.
 </div>
 
 </section>
@@ -637,82 +365,53 @@ Copy Link
 <div class="logo">FC Shop</div>
 </div>
 
-<div class="section-title">
-Premium Badges
-</div>
-
+<div class="section-title">Premium Badges</div>
 
 <div class="shop-item">
-
 <div class="shop-icon">🔵</div>
-
 <div class="shop-info">
 <b>Blueberry Badge</b>
 <small>5,000 FC Points</small>
 </div>
-
-<button class="btn"
-onclick="buyBadge('Blueberry',5000)">
-Buy
-</button>
-
+<button class="btn" onclick="buyBadge('blueberry',5000)">Buy</button>
 </div>
 
-
 <div class="shop-item">
-
 <div class="shop-icon">🟢</div>
-
 <div class="shop-info">
 <b>Green Berry Badge</b>
 <small>8,000 FC Points</small>
 </div>
-
-<button class="btn"
-onclick="buyBadge('Green Berry',8000)">
-Buy
-</button>
-
+<button class="btn" onclick="buyBadge('green_berry',8000)">Buy</button>
 </div>
 
+<div class="shop-item">
+<div class="shop-icon">🔷</div>
+<div class="shop-info">
+<b>Blue Verification</b>
+<small>10,000 FC Points</small>
+</div>
+<button class="btn" onclick="buyBadge('blue_verification',10000)">Buy</button>
+</div>
 
 <div class="shop-item">
-
 <div class="shop-icon">⚫</div>
-
 <div class="shop-info">
 <b>Blackberry VIP</b>
 <small>15,000 FC Points</small>
 </div>
-
-<button class="btn"
-onclick="buyBadge('Blackberry VIP',15000)">
-Buy
-</button>
-
+<button class="btn" onclick="buyBadge('blackberry_vip',15000)">Buy</button>
 </div>
 
-
-<div class="shop-item">
-
-<div class="shop-icon">🟦</div>
-
-<div class="shop-info">
-<b>Blue Verification</b>
-<small>Verified profile badge</small>
-</div>
-
-<button class="btn"
-onclick="buyVerification()">
-Buy
-</button>
-
+<div class="notice">
+⚫ Blackberry VIP is the highest badge tier and includes
+Priority Personal Support.
 </div>
 
 </section>
 
 
-<!-- WITHDRAW -->
+<!-- WITHDRAWAL -->
 <section id="withdraw" class="page">
 
 <div class="header">
@@ -720,61 +419,37 @@ Buy
 </div>
 
 <div class="card">
-
-<div class="balance-label">
-Minimum Withdrawal
+<div class="balance-label">Minimum Withdrawal</div>
+<div class="balance">20,000</div>
+<div class="fc">FC Points</div>
+<br>
+<div class="info">
+Available methods: bKash, Nagad and Binance.
+All withdrawals are reviewed by Admin.
+</div>
 </div>
 
-<div class="balance">
-20,000
-</div>
-
-<div class="fc">
-FC Points = ৳150
-</div>
-
-</div>
-
-
-<div class="section-title">
-Choose Method
-</div>
+<div class="section-title">Payment Method</div>
 
 <select id="method">
-
-<option>bKash</option>
-<option>Nagad</option>
-<option>Binance</option>
-
+<option value="bKash">bKash</option>
+<option value="Nagad">Nagad</option>
+<option value="Binance">Binance</option>
 </select>
 
+<div class="balance-label">Number / Binance ID</div>
 
-<input
-id="payment"
-placeholder="Payment number / Binance ID"
->
+<input id="payment"
+placeholder="Enter payment number or Binance ID">
 
-
-<button
-class="btn"
-style="width:100%"
-onclick="withdraw()">
-
+<button class="btn" style="width:100%" onclick="withdraw()">
 Submit Withdrawal
-
 </button>
 
-
-<div class="card" style="margin-top:15px">
-
-<div class="balance-label">
-Withdrawal Status
-</div>
-
-<div style="margin-top:8px">
-No pending withdrawal
-</div>
-
+<div class="card" style="margin-top:14px">
+<div class="balance-label">Withdrawal Status</div>
+<br>
+<div id="withdrawStatus" class="status">No pending withdrawal</div>
 </div>
 
 </section>
@@ -785,142 +460,124 @@ No pending withdrawal
 
 <div class="header">
 <div class="logo">Profile</div>
+<button class="icon-btn" onclick="showPage('settings')">⚙️</button>
 </div>
-
 
 <div class="card">
 
 <div class="profile">
 
-<img
-id="avatar"
-class="avatar"
-src="https://placehold.co/150x150/202833/ffffff?text=FP"
-alt="Profile"
->
+<div class="avatar" id="avatar">FP</div>
 
 <div>
-
 <div class="profile-name">
-
-<span id="profileName">
-Found User
-</span>
-
-<span
-id="verification"
-class="verify"
-style="display:none">
-✓
-</span>
-
+<span id="profileName">Found User</span>
+<span id="verification" class="verify" style="display:none">✓</span>
 </div>
-
-<div
-class="username"
-id="profileUsername">
-@found_user
+<div class="username" id="profileUsername">@found_user</div>
 </div>
 
 </div>
 
-</div>
-
-
-<label class="file-label">
-
-Change Profile Photo
-
-<input
-type="file"
-id="photoInput"
-accept="image/*"
-onchange="changePhoto(event)"
->
-
-</label>
-
-
-<div class="badges" id="profileBadges">
-
-<div class="badge">
-🎫 Tickets: <span id="tickets">0</span>
-</div>
+<div class="badges" id="profileBadges"></div>
 
 </div>
 
-</div>
-
-
-<div class="section-title">
-Profile Information
-</div>
-
+<div class="section-title">Statistics</div>
 
 <div class="card">
 
 <div class="task">
-
 <div class="task-icon">🪙</div>
-
 <div class="task-info">
 <b>FC Points</b>
-<small id="profileBalance">
-0 FC Points
-</small>
+<small id="profileBalance">0 FC Points</small>
 </div>
-
 </div>
-
 
 <div class="task">
+<div class="task-icon">📅</div>
+<div class="task-info">
+<b>Yesterday's Points</b>
+<small id="yesterday">0 FC</small>
+</div>
+</div>
 
+<div class="task">
 <div class="task-icon">🎫</div>
-
 <div class="task-info">
 <b>Tickets</b>
-<small id="profileTickets">
-0 Tickets
-</small>
+<small id="profileTickets">0 Tickets</small>
 </div>
-
 </div>
-
 
 <div class="task">
-
-<div class="task-icon">🛡️</div>
-
+<div class="task-icon">📺</div>
 <div class="task-info">
-<b>Account Status</b>
-<small>Active</small>
+<b>Ads Watched Today</b>
+<small id="profileAds">0 / 20</small>
+</div>
 </div>
 
 </div>
 
+<div class="section-title">My Badges</div>
+
+<div class="card" id="myBadges">
+<div class="empty">No premium badges yet.</div>
 </div>
 
+</section>
 
-<div class="section-title">
-My Badges
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+
+<div class="header">
+<div class="logo">Settings</div>
 </div>
 
+<div class="section-title">Account</div>
 
 <div class="card">
 
-<div
-class="empty"
-id="noBadges">
+<div class="balance-label">Your Name</div>
+<input id="nameInput" placeholder="Enter your name">
 
-No premium badges yet.
+<button class="btn" style="width:100%" onclick="changeName()">
+Save Name
+</button>
+
+<div class="divider"></div>
+
+<div class="balance-label">Username</div>
+<div class="info" id="settingsUsername">@found_user</div>
 
 </div>
 
-<div
-class="badges"
-id="myBadges">
+<div class="section-title">Language</div>
+
+<div class="card">
+
+<select id="language" onchange="changeLanguage()">
+<option value="en">🇬🇧 English</option>
+<option value="bn">🇧🇩 বাংলা</option>
+</select>
+
+<div class="info">
+The app language can be changed anytime.
 </div>
 
+</div>
+
+<div class="section-title">Security</div>
+
+<div class="card">
+<div class="notice">
+🔐 Your Telegram identity is used for account access.
+<br><br>
+Profile photos are not uploaded or stored by this app.
+</div>
 </div>
 
 </section>
@@ -934,76 +591,56 @@ id="myBadges">
 </div>
 
 <div class="card">
-
 <h3>⚙️ System Overview</h3>
 
 <div class="stats">
-
 <div class="stat">
 <small>Total Users</small>
-<b>0</b>
+<b id="adminUsers">0</b>
 </div>
-
 <div class="stat">
 <small>Active Users</small>
-<b>0</b>
+<b id="adminActive">0</b>
+</div>
+</div>
 </div>
 
-</div>
-
-</div>
-
-
-<div class="section-title">
-User Management
-</div>
-
+<div class="section-title">Management</div>
 
 <div class="task">
-
 <div class="task-icon">👥</div>
-
 <div class="task-info">
 <b>All Users</b>
 <small>View and manage users</small>
 </div>
-
-<button class="btn dark">
-Open
-</button>
-
+<button class="btn dark" onclick="adminAction('users')">Open</button>
 </div>
 
-
 <div class="task">
-
-<div class="task-icon">⭐</div>
-
+<div class="task-icon">💸</div>
 <div class="task-info">
-<b>VIP Users</b>
-<small>View badge and VIP users</small>
+<b>Withdrawals</b>
+<small>Approve or reject requests</small>
 </div>
-
-<button class="btn dark">
-Open
-</button>
-
+<button class="btn dark" onclick="adminAction('withdrawals')">Open</button>
 </div>
-
 
 <div class="task">
+<div class="task-icon">🏅</div>
+<div class="task-info">
+<b>Badges & VIP</b>
+<small>Manage user badges</small>
+</div>
+<button class="btn dark" onclick="adminAction('badges')">Open</button>
+</div>
 
-<div class="task-icon">💰</div>
-
+<div class="task">
+<div class="task-icon">⚙️</div>
 <div class="task-info">
 <b>Reward Settings</b>
-<small>Edit earning limits and rewards</small>
+<small>Manage earning settings</small>
 </div>
-
-<button class="btn dark">
-Edit
-</button>
-
+<button class="btn dark" onclick="adminAction('rewards')">Open</button>
 </div>
 
 </section>
@@ -1011,82 +648,128 @@ Edit
 </div>
 
 
-<!-- NAVIGATION -->
+<!-- NAV -->
 <div class="nav">
-
 <div class="nav-inner">
 
-<button
-class="active"
-onclick="showPage('home',this)">
-<div>⌂</div>
-Home
+<button class="active" onclick="showPage('home',this)">
+<div>⌂</div>Home
 </button>
 
-<button
-onclick="showPage('tasks',this)">
-<div>✓</div>
-Tasks
+<button onclick="showPage('tasks',this)">
+<div>✓</div>Tasks
 </button>
 
-<button
-onclick="showPage('referral',this)">
-<div>👥</div>
-Referral
+<button onclick="showPage('referral',this)">
+<div>👥</div>Referral
 </button>
 
-<button
-onclick="showPage('shop',this)">
-<div>🛍</div>
-Shop
+<button onclick="showPage('shop',this)">
+<div>🛍</div>Shop
 </button>
 
-<button
-onclick="showPage('profile',this)">
-<div>👤</div>
-Profile
+<button onclick="showPage('profile',this)">
+<div>👤</div>Profile
 </button>
 
 </div>
-
 </div>
 
 
 <script>
 
-let balance = 0;
-let today = 0;
-let ads = 0;
-let tickets = 0;
+const tg =
+window.Telegram &&
+window.Telegram.WebApp
+? window.Telegram.WebApp
+: null;
 
-let earningTimer = null;
-let earningRunning = false;
+if(tg){
+tg.ready();
+tg.expand();
+}
 
-let dailyClaimed = false;
-let profileClaimed = false;
+const API_BASE =
+"https://found-points-backend.onrender.com";
+
+let state={
+balance:0,
+today:0,
+yesterday:0,
+ads:0,
+tickets:0,
+invited:0,
+name:"Found User",
+username:"@found_user",
+verification:false,
+badges:[],
+checkin:false,
+mission:false,
+goal:false,
+activity:false,
+activityCount:0,
+earning:false
+};
+
+let earningTimer=null;
 
 
-/* UPDATE UI */
+/* UI */
 
 function updateUI(){
 
-document.getElementById("balance").innerText =
-balance.toLocaleString();
+document.getElementById("balance").textContent=
+state.balance.toLocaleString();
 
-document.getElementById("today").innerText =
-today.toLocaleString()+" FC";
+document.getElementById("today").textContent=
+state.today.toLocaleString()+" FC";
 
-document.getElementById("ads").innerText =
-ads+" / 20";
+document.getElementById("yesterday").textContent=
+state.yesterday.toLocaleString()+" FC";
 
-document.getElementById("profileBalance").innerText =
-balance.toLocaleString()+" FC Points";
+document.getElementById("ads").textContent=
+state.ads+" / 20";
 
-document.getElementById("tickets").innerText =
-tickets;
+document.getElementById("taskAds").textContent=
+state.ads+" / 20";
 
-document.getElementById("profileTickets").innerText =
-tickets+" Tickets";
+document.getElementById("profileAds").textContent=
+state.ads+" / 20";
+
+document.getElementById("profileBalance").textContent=
+state.balance.toLocaleString()+" FC Points";
+
+document.getElementById("profileTickets").textContent=
+state.tickets+" Tickets";
+
+document.getElementById("profileName").textContent=
+state.name;
+
+document.getElementById("profileUsername").textContent=
+state.username;
+
+document.getElementById("settingsUsername").textContent=
+state.username;
+
+document.getElementById("nameInput").value=
+state.name;
+
+document.getElementById("verification").style.display=
+state.verification ? "inline-flex":"none";
+
+document.getElementById("checkinBtn").disabled=
+state.checkin;
+
+document.getElementById("missionBtn").disabled=
+state.mission;
+
+document.getElementById("goalBtn").disabled=
+state.goal;
+
+document.getElementById("activityBtn").disabled=
+state.activity;
+
+renderBadges();
 
 }
 
@@ -1098,8 +781,9 @@ function showPage(id,btn){
 document.querySelectorAll(".page")
 .forEach(p=>p.classList.remove("active"));
 
-document.getElementById(id)
-.classList.add("active");
+const page=document.getElementById(id);
+
+if(page) page.classList.add("active");
 
 document.querySelectorAll(".nav button")
 .forEach(b=>b.classList.remove("active"));
@@ -1111,28 +795,31 @@ window.scrollTo(0,0);
 }
 
 
-/* START EARNING */
+/* NORMAL EARNING */
 
 function startEarning(){
 
-if(earningRunning){
-return;
-}
+if(state.earning)return;
 
-earningRunning = true;
+state.earning=true;
 
 document.getElementById("startBtn").style.display="none";
-
 document.getElementById("stopBtn").style.display="inline-block";
 
-document.getElementById("earningStatus").innerText =
+document.getElementById("earningStatus").textContent=
 "Earning is running • 1 FC every 6 seconds";
 
+earningTimer=setInterval(()=>{
 
-earningTimer = setInterval(function(){
+if(state.today>=200){
 
-balance += 1;
-today += 1;
+stopEarning();
+return;
+
+}
+
+state.balance++;
+state.today++;
 
 updateUI();
 
@@ -1140,198 +827,159 @@ updateUI();
 
 }
 
-
-/* STOP EARNING */
-
 function stopEarning(){
 
-if(!earningRunning){
-return;
+state.earning=false;
+
+if(earningTimer){
+clearInterval(earningTimer);
+earningTimer=null;
 }
 
-earningRunning = false;
-
-clearInterval(earningTimer);
-
-earningTimer = null;
-
 document.getElementById("startBtn").style.display="inline-block";
-
 document.getElementById("stopBtn").style.display="none";
 
-document.getElementById("earningStatus").innerText =
+document.getElementById("earningStatus").textContent=
 "Earning is stopped";
 
 }
 
 
-/* DAILY CHECK-IN */
+/* DAILY TASKS */
 
 function dailyCheckin(){
 
-if(dailyClaimed){
+if(state.checkin)return;
 
-alert("Daily Check-in already claimed.");
-
-return;
-}
-
-dailyClaimed = true;
-
-balance += 10;
-today += 10;
-
-updateUI();
+state.checkin=true;
+addLocalReward(10);
 
 alert("Daily Check-in completed! +10 FC");
 
 }
 
+function claimMission(){
 
-/* COMPLETE PROFILE */
+if(state.mission)return;
 
-function completeProfile(){
+state.mission=true;
+addLocalReward(10);
 
-if(profileClaimed){
+alert("Daily Mission completed! +10 FC");
 
-alert("Profile reward already claimed.");
+}
 
+function claimGoal(){
+
+if(state.goal)return;
+
+if(state.today<5){
+
+alert("Earn at least 5 FC first.");
+
+return;
+
+}
+
+state.goal=true;
+addLocalReward(5);
+
+alert("Daily Earning Goal completed! +5 FC");
+
+}
+
+function activity(){
+
+if(state.activity)return;
+
+if(state.activityCount<4){
+
+state.activityCount++;
+
+if(state.activityCount<4){
+
+alert(
+"Activity recorded: "+
+state.activityCount+
+"/4"
+);
+
+return;
+
+}
+
+}
+
+state.activity=true;
+addLocalReward(5);
+
+alert("Daily Activity completed! +5 FC");
+
+}
+
+function addLocalReward(points){
+
+if(state.today+points>650){
+
+alert("Daily maximum reached.");
 return;
 }
 
-profileClaimed = true;
-
-balance += 50;
-today += 50;
+state.balance+=points;
+state.today+=points;
 
 updateUI();
-
-alert("Profile completed! +50 FC");
 
 }
 
 
-/* TICKET AD */
+/* ADS */
 
 function ticketAd(){
 
-alert(
-"Testing mode.\n\n"+
-"AdsGram will be connected here tomorrow.\n"+
-"After watching the required ads, a Ticket will be rewarded."
-);
+if(state.ads>=20){
 
-}
-
-
-/* REWARD ADS */
-
-function rewardAd(){
-
-alert(
-"Rewarded Ads are currently disabled for testing.\n\n"+
-"AdsGram will be connected tomorrow."
-);
-
-}
-
-
-/* BOOST */
-
-function testBoost(){
-
-alert(
-"Testing mode.\n\n"+
-"Real Boost requirement:\n"+
-"4 rewarded ads\n"+
-"20 FC per minute\n"+
-"5 minutes\n\n"+
-"AdsGram will be connected tomorrow."
-);
-
-}
-
-
-/* PHOTO CHANGE */
-
-function changePhoto(event){
-
-const file = event.target.files[0];
-
-if(!file){
+alert("Daily ad limit reached.");
 return;
-}
-
-const reader = new FileReader();
-
-reader.onload = function(e){
-
-document.getElementById("avatar").src =
-e.target.result;
-
-};
-
-reader.readAsDataURL(file);
 
 }
-
-
-/* BADGE PURCHASE */
-
-function buyBadge(name,price){
-
-if(balance < price){
-
-alert("Not enough FC Points.");
-
-return;
-}
-
-if(confirm(
-"Buy "+name+
-" for "+price+
-" FC Points?"
-)){
-
-balance -= price;
-
-updateUI();
-
-addBadge(name);
-
-alert(name+" purchased successfully.");
-
-}
-
-}
-
-
-/* ADD BADGE */
-
-function addBadge(name){
-
-document.getElementById("noBadges")
-.style.display="none";
-
-let badge =
-document.createElement("div");
-
-badge.className="badge";
-
-badge.innerText="🏅 "+name;
-
-document.getElementById("myBadges")
-.appendChild(badge);
-
-}
-
-
-/* BLUE VERIFICATION */
-
-function buyVerification(){
 
 alert(
-"Blue Verification purchase will be connected to the real Shop/Admin system later."
+"AdsGram will be connected here.\n\n"+
+"Ticket system: 4 rewarded ads = 4 Tickets = 200 FC/day."
+);
+
+}
+
+function boostAd(){
+
+if(state.ads>=20){
+
+alert("Daily ad limit reached.");
+return;
+
+}
+
+alert(
+"Boost system:\n"+
+"4 rewarded ads → 20 FC/min for 5 minutes.\n"+
+"Maximum boost reward: 100 FC/day."
+);
+
+}
+
+function personalAd(){
+
+if(state.ads>=20){
+
+alert("Daily ad limit reached.");
+return;
+
+}
+
+alert(
+"Personal Reward:\n"+
+"12 rewarded ads × 10 FC = 120 FC/day."
 );
 
 }
@@ -1341,58 +989,233 @@ alert(
 
 function copyReferral(){
 
-let input =
-document.getElementById("refLink");
+const input=document.getElementById("refLink");
 
-navigator.clipboard.writeText(input.value);
+if(navigator.clipboard){
 
-alert("Referral link copied.");
+navigator.clipboard.writeText(input.value)
+.then(()=>alert("Referral link copied."))
+.catch(()=>alert("Copy failed."));
+
+}else{
+
+input.select();
+alert("Copy the referral link.");
+
+}
 
 }
 
 
-/* WITHDRAW */
+/* SHOP */
+
+function buyBadge(key,price){
+
+if(state.balance<price){
+
+alert("Not enough FC Points.");
+return;
+
+}
+
+if(confirm("Purchase this badge for "+price+" FC Points?")){
+
+alert(
+"Purchase request submitted.\n"+
+"Admin approval is required."
+);
+
+}
+
+}
+
+
+/* WITHDRAWAL */
 
 function withdraw(){
 
-if(balance < 20000){
+if(state.balance<20000){
 
-alert(
-"You need at least 20,000 FC Points."
-);
-
+alert("Minimum withdrawal is 20,000 FC Points.");
 return;
 
 }
 
-let method =
-document.getElementById("method").value;
-
-let payment =
-document.getElementById("payment").value.trim();
+const method=document.getElementById("method").value;
+const payment=document.getElementById("payment").value.trim();
 
 if(!payment){
 
-alert(
-"Please enter your payment information."
-);
+alert("Please enter your payment number / Binance ID.");
+return;
+
+}
+
+if(confirm(
+"Submit withdrawal request?\n\n"+
+"Method: "+method
+)){
+
+document.getElementById("withdrawStatus").textContent=
+"Pending";
+
+document.getElementById("withdrawStatus").className=
+"status pending";
+
+alert("Withdrawal submitted. Status: Pending.");
+
+}
+
+}
+
+
+/* NAME */
+
+function changeName(){
+
+const name=
+document.getElementById("nameInput").value.trim();
+
+if(!name){
+
+alert("Enter your name.");
+return;
+
+}
+
+if(name.length>40){
+
+alert("Name is too long.");
+return;
+
+}
+
+state.name=name;
+
+updateUI();
+
+alert("Name updated.");
+
+}
+
+
+/* BADGES */
+
+function renderBadges(){
+
+const profile=document.getElementById("profileBadges");
+const list=document.getElementById("myBadges");
+
+profile.innerHTML="";
+list.innerHTML="";
+
+if(!state.badges.length){
+
+list.innerHTML=
+'<div class="empty">No premium badges yet.</div>';
 
 return;
 
 }
 
+state.badges.forEach(b=>{
+
+const el=document.createElement("div");
+el.className="badge";
+el.textContent=b;
+profile.appendChild(el);
+
+const full=document.createElement("div");
+full.className="badge";
+full.textContent=b;
+list.appendChild(full);
+
+});
+
+}
+
+
+/* LANGUAGE */
+
+function changeLanguage(){
+
+const lang=
+document.getElementById("language").value;
+
+if(lang==="bn"){
+
+alert("বাংলা ভাষা নির্বাচন করা হয়েছে।");
+
+}else{
+
+alert("English language selected.");
+
+}
+
+}
+
+
+/* ADMIN */
+
+function adminAction(type){
+
 alert(
-"Withdrawal submitted.\n\n"+
-"Method: "+method+
-"\nStatus: Under Review"
+"Admin action: "+type+
+"\n\nThis will use the secure backend Admin API."
 );
 
 }
 
 
+/* TELEGRAM USER */
+
+function loadTelegramUser(){
+
+if(!tg || !tg.initDataUnsafe){
+
+return;
+
+}
+
+const user=tg.initDataUnsafe.user;
+
+if(!user)return;
+
+if(user.first_name || user.last_name){
+
+state.name=
+[user.first_name,user.last_name]
+.filter(Boolean)
+.join(" ");
+
+}
+
+if(user.username){
+
+state.username="@"+user.username;
+
+}
+
+const first=
+(user.first_name||"F").charAt(0);
+
+state.avatarInitial=first.toUpperCase();
+
+const avatar=document.getElementById("avatar");
+
+avatar.textContent=state.avatarInitial;
+
+updateUI();
+
+}
+
+
+/* START */
+
+loadTelegramUser();
 updateUI();
 
 </script>
 
 </body>
-  </html>
+</html>
