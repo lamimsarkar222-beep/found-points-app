@@ -92,10 +92,6 @@ width:19px;height:19px;border-radius:50%;
 background:#3195ff;color:#fff;font-size:12px;margin-left:5px
 }
 .badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-.badge{
-padding:7px 10px;border-radius:10px;background:#202a35;
-font-size:12px;font-weight:700
-}
 .status{
 padding:7px 10px;border-radius:9px;background:#202a35;
 font-size:12px;display:inline-block
@@ -129,18 +125,18 @@ background:#111820;border:1px solid #252e39;
 color:#9ba6b2;font-size:13px;line-height:1.45
 }
 
-/* WELCOME MODAL */
+/* WELCOME MODAL STYLES */
 .modal-overlay{
 position:fixed;top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,0.85);backdrop-filter:blur(5px);
+background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
 display:flex;align-items:center;justify-content:center;
-z-index:999;padding:20px
+z-index:9999;padding:20px
 }
 .modal-card{
 background:linear-gradient(145deg,#1c2633,#111720);
 border:1px solid #32445a;border-radius:24px;
 padding:24px;max-width:400px;width:100%;text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.5)
+box-shadow:0 10px 30px rgba(0,0,0,0.8)
 }
 .modal-card h2{font-size:22px;color:#fff;margin-bottom:8px}
 .modal-card p{color:#9aa6b3;font-size:13px;margin-bottom:16px;line-height:1.4}
@@ -191,7 +187,7 @@ box-shadow:0 10px 30px rgba(0,0,0,0.5)
 </div>
 </div>
 
-<button class="btn" style="width:100%;padding:14px;font-size:16px" onclick="closeWelcome()">
+<button id="closeWelcomeBtn" class="btn" style="width:100%;padding:14px;font-size:16px" onclick="closeWelcome()">
 Start Earning Now 🚀
 </button>
 </div>
@@ -604,15 +600,15 @@ All withdrawals are reviewed by Admin.
 /* TELEGRAM INIT */
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if(tg){
-tg.ready();
-tg.expand();
+  tg.ready();
+  tg.expand();
 }
 
-/* SUPABASE CONFIG (Change credentials when live) */
+/* SUPABASE CONFIG */
 const SUPABASE_URL = "YOUR_SUPABASE_URL";
 const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
 let supabase = null;
-if(SUPABASE_URL !== "YOUR_SUPABASE_URL"){
+if(SUPABASE_URL !== "YOUR_SUPABASE_URL" && window.supabase){
   supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 
@@ -658,7 +654,7 @@ const dict = {
     lbl_quick: "Quick Actions"
   },
   bn: {
-    wTitle: "🌟 পাউন্ড পয়েন্টসে স্বাগতম! 🚀",
+    wTitle: "🌟 ফাউণ্ড পয়েন্টসে স্বাগতম! 🚀",
     wDesc: "সহজ টাস্ক পূরণ করে প্রতিদিন রিয়েল রিওয়ার্ড আর্ন করুন!",
     wf1_t: "তাৎক্ষণিক আর্নিং ও ডেইলি রিওয়ার্ড",
     wf1_d: "প্রতি ৬ সেকেন্ডে ১ FC পয়েন্ট ও দৈনিক চেক-ইন বোনাস।",
@@ -676,12 +672,16 @@ const dict = {
   }
 };
 
+/* ABSOLUTE POPUP CLOSE FUNCTION */
 function closeWelcome(){
-  document.getElementById("welcomeModal").style.display = "none";
+  const modal = document.getElementById("welcomeModal");
+  if(modal){
+    modal.style.setProperty("display", "none", "important");
+  }
 }
 
 function initApp(){
-  // Auto Generate Telegram Referral Link
+  // Auto Generate Telegram Referral Link for @FoundPointsBot
   const refUrl = `https://t.me/FoundPointsBot?start=ref_${state.userId}`;
   document.getElementById("refLink").value = refUrl;
   
@@ -815,7 +815,6 @@ function showAd(){
     return;
   }
   
-  // Real AdsGram invocation logic (ready for blockId insertion)
   if(window.AdController){
     window.AdController.show().then((result) => {
       if(result.done){
@@ -827,7 +826,7 @@ function showAd(){
       alert("Ad failed or closed early.");
     });
   } else {
-    // Testing Fallback
+    // Testing Fallback Mode
     state.ads++;
     addReward(10);
     alert("Test Ad completed! +10 FC Points added.");
@@ -873,8 +872,10 @@ function changeName(){
   }
 }
 
-// Start app
-initApp();
+// Initialize on page load
+window.addEventListener("DOMContentLoaded", () => {
+  initApp();
+});
 </script>
 
 </body>
