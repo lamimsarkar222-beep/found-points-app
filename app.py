@@ -5,19 +5,14 @@ import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 # ==========================================
-# CONFIGURATION
+# CONFIGURATION (Render Environment Variables থেকে স্বয়ংক্রিয়ভাবে নেবে)
 # ==========================================
-# ১. এখানে আপনার আসল Bot Token টি বসাবেন
-BOT_TOKEN = ("8975124711:AAERO2hD5bbCIPeNUSWPfVgWO4hl4vRYsFw")
-
-# আপনার Render URL (বসানো শেষ)
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
 WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://found-points-app.onrender.com")
 
-# ২. এখানে আপনার Supabase URL ও Key বসাবেন
-SUPABASE_URL = "[https://Rfmadecizrlyzckvwzjp.supabase.co](https://Rfmadecizrlyzckvwzjp.supabase.co)"
-SUPABASE_ANON_KEY = "sb_publishable_BKRBwmmSMbp6NC5zKqq2Mg_88Sls3fx"
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_ANON_KEY = os.environ.get("SUPABASE_ANON_KEY")
 
-# বটের ইউজারনেম (বসানো শেষ)
 BOT_USERNAME = "found_points_bot"
 
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -233,6 +228,9 @@ def run_bot():
     bot.infinity_polling()
 
 if __name__ == "__main__":
-    threading.Thread(target=run_bot, daemon=True).start()
-    port = int(os.environ.get("PORT", 5000))
+    t = threading.Thread(target=run_bot)
+    t.daemon = True
+    t.start()
+    
+    port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
