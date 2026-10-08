@@ -1,11 +1,10 @@
 import os
-import threading
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, request
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 
 # ==========================================
-# CONFIGURATION (Render Environment Variables থেকে স্বয়ংক্রিয়ভাবে নেবে)
+# CONFIGURATION
 # ==========================================
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
 WEBAPP_URL = os.environ.get("WEBAPP_URL", "https://found-points-app.onrender.com")
@@ -17,6 +16,10 @@ BOT_USERNAME = "found_points_bot"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
+
+# Webhook সেটআপ করা
+bot.remove_webhook()
+bot.set_webhook(url=f"{WEBAPP_URL}/{BOT_TOKEN}")
 
 # ==========================================
 # WEBAPP HTML & JS CONTENT
@@ -217,6 +220,17 @@ window.addEventListener("DOMContentLoaded", initApp);
 def home():
     return render_template_string(HTML_CONTENT)
 
+# Telegram Webhook Endpoint
+@app.route(f'/{BOT_TOKEN}', methods=['POST'])
+def webhook():
+    if request.headers.get('content-type') == 'application/json':
+        json_string = request.get_data().decode('utf-8')
+        update = telebot.types.Update.de_json(json_string)
+        bot.process_new_updates([update])
+        return '', 200
+    else:
+        return 'Forbidden', 403
+
 @bot.message_handler(commands=['start'])
 def start_cmd(message):
     markup = InlineKeyboardMarkup()
@@ -224,13 +238,6 @@ def start_cmd(message):
     markup.add(btn)
     bot.send_message(message.chat.id, "🌟 *Welcome to Found Points!*", parse_mode="Markdown", reply_markup=markup)
 
-def run_bot():
-    bot.infinity_polling()
-
 if __name__ == "__main__":
-    t = threading.Thread(target=run_bot)
-    t.daemon = True
-    t.start()
-    
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
