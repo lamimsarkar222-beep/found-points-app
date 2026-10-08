@@ -1,0 +1,4 @@
+Flask==3.0.2
+PyTelegramBotAPI==4.16.1
+supabase==2.3.0
+gunicorn==21.2.0
