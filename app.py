@@ -1,28 +1,35 @@
 import os
-from flask import Flask, jsonify
+import telebot
+from flask import Flask, request
 from supabase import create_client, Client
 
 app = Flask(__name__)
 
-# Supabase Credentials from Environment Variables
+# এগুলো রেন্ডারের Value থেকে রিড করবে
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN)
 
 @app.route('/')
 def home():
-    return "Bot and Database App is Running!"
+    return "Running!"
 
-@app.route('/test-db')
-def test_db():
-    try:
-        # সুপাবেজে একটি টেস্ট ডাটা পাঠাচ্ছি কানেকশন চেক করার জন্য
-        data = {"key": "connection_test", "value": {"status": "success"}}
-        response = supabase.table("app_settings").insert(data).execute()
-        return "Database Connected Successfully!"
-    except Exception as e:
-        return f"Database Error: {str(e)}"
+@app.route(f'/{TELEGRAM_BOT_TOKEN}', methods=['POST'])
+def webhook():
+    json_str = request.get_data().decode('UTF-8')
+    update = telebot.types.Update.de_json(json_str)
+    bot.process_new_updates([update])
+    return "OK", 200
+
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+    user_id = message.from_user.id
+    username = message.from_user.username
+    supabase.table("users").upsert({"telegram_id": user_id, "username": username}).execute()
+    bot.reply_to(message, "স্বাগতম!")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
